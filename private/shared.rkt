@@ -17,14 +17,18 @@
 
 (define hue/c (or/c (real-in 0 1) +nan.0))
 (define %/c (real-in 0 1))
-(define color/c
-  (or/c (is-a?/c color%)
-        string?))
 
 (struct h**-color (hue saturation value alpha) #:transparent)
 (struct hsl-color h**-color () #:transparent)
 (struct hsv-color h**-color () #:transparent)
 (struct hsi-color h**-color () #:transparent)
+
+(define color/c
+  (or/c (is-a?/c color%)
+        string?
+        (flat-named-contract 'hsl? hsl-color?)
+        (flat-named-contract 'hsi? hsi-color?)
+        (flat-named-contract 'hsv? hsv-color?)))
 
 (define (compute-rgb-from-ir chroma hue mn)
   (define hue-from-0-to-6 (* hue 6))

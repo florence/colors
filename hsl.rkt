@@ -2,14 +2,9 @@
 (require "private/shared.rkt" racket/draw)
 (provide
  (contract-out
-  [hsl?           predicate/c]
-  [hsl            (-> hue/c %/c %/c hsl-color?)]
   [color->hsl     (-> color/c hsl-color?)]
   [hsl->color     (-> hsl-color? (is-a?/c color%))]))
 
-
-(define (hsl h s v) (hsl-color h s v 1.0))
-(define hsl? hsl-color?)
 
 (define (color->hsl c*)
   (define-values (r g b alpha mn mx chroma hue) (color->rgbanxch c*))

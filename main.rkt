@@ -1,20 +1,36 @@
 #lang racket
 (provide
  (contract-out
-  ;; TODO dependent contracts
   [hsl?           predicate/c]
   [hsi?           predicate/c]
   [hsv?           predicate/c]
+  [color/c contract?]
+  [%/c contract?]
+  [hue/c contract?]
 
+  [rename color->hsv* color->hsv     (-> color/c hsv?)]
+  [hsv->color     (-> hsv? (is-a?/c color%))]
+  [rename color->hsl* color->hsl     (-> color/c hsl?)]
+  [hsl->color     (-> hsl? (is-a?/c color%))]
+  [rename color->hsi* color->hsi     (-> color/c hsi?)]
+  [hsi->color     (-> hsi? (is-a?/c color%))]
 
   [hsv            (-> hue/c %/c %/c hsv-color?)]
-  [hsi            (-> hue/c %/c %/c hsv-color?)]
-  [hsl            (-> hue/c %/c %/c hsv-color?)]
+  [hsi            (-> hue/c %/c %/c hsi-color?)]
+  [hsl            (-> hue/c %/c %/c hsl-color?)]
 
   [compliment     (-> h**-color? h**-color?)]
   [set-hue        (-> h**-color? hue/c h**-color?)]
   [set-saturation (-> h**-color? %/c h**-color?)]
   [set-brightness (-> h**-color? %/c h**-color?)]))
+
+      
+
+(require "private/shared.rkt"
+         "hsl.rkt"
+         "hsi.rkt"
+         "hsv.rkt"
+         (only-in racket/draw color%))
 
 (define hsv? hsv-color?)
 (define hsi? hsi-color?)
@@ -24,10 +40,18 @@
 (define (hsi h s v) (hsi-color h s v 1.0))
 (define (hsv h s v) (hsv-color h s v 1.0))
 
-(require "private/shared.rkt"
-         "hsl.rkt"
-         "hsi.rkt"
-         "hsv.rkt")
+(define (->color c)
+  (cond
+    [(hsv? c) (hsv->color c)]
+    [(hsi? c) (hsi->color c)]
+    [(hsl? c) (hsl->color c)]
+    [else c]))
+
+
+(define color->hsv* (compose ->color color->hsv))
+(define color->hsi* (compose ->color color->hsi))
+(define color->hsl* (compose ->color color->hsl))
+
 
 (module+ test (require rackunit racket/draw))
 
