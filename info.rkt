@@ -4,3 +4,5 @@
                "gui-lib"))
 (define build-deps '("debug"
                      "rackunit-lib"))
+
+(define scribblings '(("scribblings/colors.scrbl")))

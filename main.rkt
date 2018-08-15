@@ -7,6 +7,7 @@
   [color/c contract?]
   [%/c contract?]
   [hue/c contract?]
+  [h**/c contract?]
 
   [rename color->hsv* color->hsv     (-> color/c hsv?)]
   [hsv->color     (-> hsv? (is-a?/c color%))]
@@ -15,14 +16,14 @@
   [rename color->hsi* color->hsi     (-> color/c hsi?)]
   [hsi->color     (-> hsi? (is-a?/c color%))]
 
-  [hsv            (-> hue/c %/c %/c hsv-color?)]
-  [hsi            (-> hue/c %/c %/c hsi-color?)]
-  [hsl            (-> hue/c %/c %/c hsl-color?)]
+  [hsv            (->* (hue/c %/c %/c) (%/c) hsv-color?)]
+  [hsi            (->* (hue/c %/c %/c) (%/c) hsi-color?)]
+  [hsl            (->* (hue/c %/c %/c) (%/c) hsl-color?)]
 
-  [compliment     (-> h**-color? h**-color?)]
-  [set-hue        (-> h**-color? hue/c h**-color?)]
-  [set-saturation (-> h**-color? %/c h**-color?)]
-  [set-brightness (-> h**-color? %/c h**-color?)]))
+  [compliment     (-> h**/c h**/c)]
+  [set-hue        (-> h**/c hue/c h**/c)]
+  [set-saturation (-> h**/c %/c h**/c)]
+  [set-brightness (-> h**/c %/c h**/c)]))
 
       
 
@@ -32,13 +33,15 @@
          "hsv.rkt"
          (only-in racket/draw color%))
 
+
 (define hsv? hsv-color?)
 (define hsi? hsi-color?)
 (define hsl? hsl-color?)
+(define h**/c (or/c hsv? hsi? hsl?))
 
-(define (hsl h s v) (hsl-color h s v 1.0))
-(define (hsi h s v) (hsi-color h s v 1.0))
-(define (hsv h s v) (hsv-color h s v 1.0))
+(define (hsl h s v [a 1.0]) (hsl-color h s v a))
+(define (hsi h s v [a 1.0] ) (hsi-color h s v a))
+(define (hsv h s v [a 1.0]) (hsv-color h s v a))
 
 (define (->color c)
   (cond
@@ -48,9 +51,9 @@
     [else c]))
 
 
-(define color->hsv* (compose ->color color->hsv))
-(define color->hsi* (compose ->color color->hsi))
-(define color->hsl* (compose ->color color->hsl))
+(define color->hsv* (compose color->hsv ->color))
+(define color->hsi* (compose color->hsi ->color))
+(define color->hsl* (compose color->hsl ->color))
 
 
 (module+ test (require rackunit racket/draw))
