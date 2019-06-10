@@ -11,6 +11,7 @@
                 scribble/manual)
   (for-label (all-from-out racket colors)))
 
+@title{Colors}
 
 @author[(author+email "Spencer Florence" "spencer@florence.io")]
 
