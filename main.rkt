@@ -20,7 +20,9 @@
   [hsi            (->* (hue/c %/c %/c) (%/c) hsi-color?)]
   [hsl            (->* (hue/c %/c %/c) (%/c) hsl-color?)]
 
-  [compliment     (-> h**/c h**/c)]
+  [complement     (-> h**/c h**/c)]
+  ;; for backwards compatibility with some terrible spelling
+  [rename complement compliment (-> h**/c h**/c)]
   [set-hue        (-> h**/c hue/c h**/c)]
   [set-saturation (-> h**/c %/c h**/c)]
   [set-brightness (-> h**/c %/c h**/c)]))
@@ -58,7 +60,7 @@
 
 (module+ test (require rackunit racket/draw))
 
-(define (compliment h**)
+(define (complement h**)
   (match-define (h**-color hue sat lightness alpha) h**)
   ((get-constructor h**)
    (if (> hue 1/2) (- hue 1/2) (+ hue 1/2))

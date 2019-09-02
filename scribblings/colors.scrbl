@@ -136,9 +136,9 @@ brightness of the color, between completely black and completely light.}
 
 @define[same]{@list{The resulting color has the same type as @racket[_color].}}
 
-@defproc[(compliment [color h**/c]) h**/c]{
+@defproc[(complement [color h**/c]) h**/c]{
 
- Get the compiment of a color. @same
+ Get the complement of a color. @same
                                            
 }
 
