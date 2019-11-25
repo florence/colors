@@ -154,8 +154,8 @@ brightness of the color, between completely black and completely light.}
                                            
 }
 
-@defproc[(set-brigthness [color h**/c] [brighness %/c]) h**/c]{
+@defproc[(set-brightness [color h**/c] [brightness %/c]) h**/c]{
 
- Construct a color like @racket[_color] but with the given @racket[brighness]. @same
+ Construct a color like @racket[_color] but with the given @racket[brightness]. @same
                                            
 }
