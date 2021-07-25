@@ -17,7 +17,7 @@
 
 @defmodule[colors]
 
-@section{Colors}
+@section{Introduction}
 
 the colors library provides alternatives to rgb color representations. it current supports hsl (hue,
 saturation, luminosity), hsi (hue, saturation, intensity), and hsv (hue, saturation, value).
